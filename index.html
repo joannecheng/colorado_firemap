@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+  <style>
+    .container {
+      border: 2px solid;
+      border-color: #020202;
+      width: 960px;
+      height: 500px;
+    }
+
+    .fires {
+      stroke: '#660000';
+      stroke-width: 0.25px;
+      fill: '#FC9272';
+    }
+
+    .states { 
+      stroke: steelblue;
+      fill: #fff;
+      stroke-width: 0.25px;
+    }
+
+    
+  </style>
+  <body>    
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v0.min.js"></script>    
+    <script>
+      var width = 960;
+      var height = 500;
+      
+        //.scale(4700)
+      var projection = d3.geo.mercator()
+        .scale(10000)
+        .center([-105.56, 39.981376])
+        .translate([width/2, height/2]);
+
+      var path = d3.geo.path()
+        .projection(projection);
+      
+        var svg = d3.select("body")
+        .append('div')
+        .attr('class', 'container')
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+      
+      d3.json("/topo_states_wildfires.json", function(err, data){
+        console.log(data.objects.wildfires);
+        // States
+        svg.append("path")
+          .datum(topojson.object(data, data.objects.us_states))
+          .attr('d', path)
+          .attr('class', 'states');
+
+        svg.append("path")
+          .datum(topojson.object(data, data.objects.wildfires))
+          .attr('d', path)
+          .attr('class', 'fires');
+      });
+      
+    </script>  
+  </body>
+</html>
