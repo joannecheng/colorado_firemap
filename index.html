@@ -9,9 +9,10 @@
     }
 
     .fires {
-      stroke: '#660000';
+      stroke: #660000;
       stroke-width: 0.25px;
-      fill: '#FC9272';
+      fill: #FC9272;
+      fill-opacity: 0.70;
     }
 
     .states { 
@@ -46,7 +47,7 @@
         .attr("height", height);
       
       d3.json("/topo_states_wildfires.json", function(err, data){
-        console.log(data.objects.wildfires);
+        console.log(data.objects.boulder_wildfires);
         // States
         svg.append("path")
           .datum(topojson.object(data, data.objects.us_states))
@@ -54,7 +55,7 @@
           .attr('class', 'states');
 
         svg.append("path")
-          .datum(topojson.object(data, data.objects.wildfires))
+          .datum(topojson.object(data, data.objects.boulder_wildfires))
           .attr('d', path)
           .attr('class', 'fires');
       });
