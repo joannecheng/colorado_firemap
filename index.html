@@ -46,7 +46,7 @@
         .attr("width", width)
         .attr("height", height);
       
-      d3.json("/topo_boulder_wildfires.json", function(err, data){
+      d3.json("topo_boulder_wildfires.json", function(err, data){
         svg.append("path")
           .datum(topojson.object(data, data.objects.boulder_wildfires))
           .attr('d', path)
