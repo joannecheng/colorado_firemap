@@ -47,15 +47,16 @@
         .attr("height", height);
       
       d3.json("topo_boulder_wildfires.json", function(err, data){
+        console.log();
         svg.append("path")
           .datum(topojson.object(data, data.objects.boulder_wildfires))
           .attr('d', path)
           .attr('class', 'fires');
+
         svg.append("path")
           .datum(topojson.object(data, data.objects.boulder_streets))
           .attr('d', path)
           .attr('class', 'states');
-
       });
       
     </script>  
