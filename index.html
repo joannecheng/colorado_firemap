@@ -1,22 +1,27 @@
 <!DOCTYPE html>
+<head>
+  <title>
+    Colorado Wildfires
+  </title>
+</head>
 <meta charset="utf-8">
   <style>
     .container {
       width: 960px;
-      height: 500px;
+      height: 1000px;
     }
 
     .fires {
       stroke: #660000;
-      stroke-width: 0.95px;
+      stroke-width: 1px;
       fill: #FC9272;
-      opacity: 0.30;
+      opacity: 0.80;
     }
 
     .states { 
       stroke: steelblue;
       fill: #fff;
-      stroke-width: 0.25px;
+      stroke-width: 0.5px;
     }
 
     
@@ -29,43 +34,56 @@
     <script src="vendor/topojson.js"></script>    
     <script>
       var width = 960;
-      var height = 500;
+      var height = 700;
       
         //.scale(4700)
       var projection = d3.geo.mercator()
-        .scale(60000)
+        .scale(80000)
         .center([-105.37, 40.09376])
         .translate([width/2, height/2]);
 
       var path = d3.geo.path()
         .projection(projection);
       
-        var svg = d3.select("body")
+      var svg = d3.select("body")
         .append('div')
         .attr('class', 'container')
         .append("svg")
         .attr("width", width)
         .attr("height", height);
       
+      var showTextOnMouseover = function(event, ui) {
+        svg.selectAll('text.fire' + ui)
+          .attr('display', 'block');
+      }
+
+      var hideTextOnMouseover = function(event, ui) {
+        svg.selectAll('text.fire' + ui)
+          .attr('display', 'none');
+      }
+
       d3.json('topo_boulder_wildfires.json', function(err, data){
-        console.log();
-        svg.selectAll('path.fires')
-          .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
-          .enter().append('path')
-          .attr('d', path)
-          .attr('class', 'fires')
-
-        svg.selectAll('text.fires')
-          .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
-          .enter().append('text')
-          .attr("transform", function(d) { 
-            return "translate(" + path.centroid(d) + ")"})
-          .text(function(d) { return d.properties.NAME });
-
         svg.append("path")
           .datum(topojson.object(data, data.objects.boulder_streets))
           .attr('d', path)
           .attr('class', 'states');
+          
+        svg.selectAll('path.fires')
+          .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
+          .enter().append('path')
+          .attr('d', path)
+          .attr('class', function(d, i) { return 'fires fire' + i })
+          .on('mouseover', showTextOnMouseover)
+          .on('mouseout', hideTextOnMouseover);
+
+        svg.selectAll('text')
+          .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
+          .enter().append('text')
+          .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"})
+          .text(function(d) { return d.properties.NAME })
+          .attr('class', function(d, i) { return 'fire' + i })
+          .attr('display', 'none')
+
       });
       
     </script>  
