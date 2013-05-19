@@ -7,8 +7,13 @@
 <meta charset="utf-8">
   <style>
     .container {
-      width: 960px;
-      height: 1000px;
+      /*background-color: #11ffff;*/
+      float: left;
+    }
+
+    .info {
+      float: right;
+      float: left;
     }
 
     .fires {
@@ -18,40 +23,49 @@
       opacity: 0.80;
     }
 
+    .fire-info {
+      cursor: pointer;
+    }
+
     .states { 
-      stroke: steelblue;
+      stroke: #0A0101;
       fill: #fff;
-      stroke-width: 0.5px;
+      stroke-width: 0.3px;
+    }
+    
+    #content {
+      margin: auto;
     }
 
     text {
       font: 12px sans-serif;
     }
-    
+
   </style>
   <body>    
+    <div id="content">
+    </div>
     <!--script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://d3js.org/topojson.v0.min.js"></script>  -->
+    <script src="http://d3js.org/topojson.v0.min.js"></script>  -->
 
     <script src="vendor/d3.js"></script>
     <script src="vendor/topojson.js"></script>    
     <script>
-      var width = 960;
+      var width = 700;
       var height = 700;
       
         //.scale(4700)
       var projection = d3.geo.mercator()
         .scale(80000)
-        .center([-105.37, 40.09376])
+        .center([-105.27, 40.05])
         .translate([width/2, height/2]);
 
       var path = d3.geo.path()
         .projection(projection);
       
-      var svg = d3.select("body")
-        .append('div')
-        .attr('class', 'container')
+      var svg = d3.select("#content")
         .append("svg")
+        .attr('class', 'container')
         .attr("width", width)
         .attr("height", height);
       
@@ -65,7 +79,28 @@
           .attr('display', 'none');
       }
 
+      var getYear = function(d){
+        var date = d.properties.STARTDATE === null ? d.properties.ENDDATE : d.properties.STARTDATE;
+        return date.substr(0,4);
+      }
+
+      var infoGraph = function(data) {
+        d3.select('#content')
+        .append('div')
+        .attr('class', 'info')
+        .selectAll('.fire-info')
+        .data(data.geometries)
+        .enter()
+        .append('div')
+        .attr('class', 'fire-info')
+        .text(function(d) { return d.properties.NAME + " " + getYear(d); })
+        .on('mouseover', showTextOnMouseover)
+        .on('mouseout', hideTextOnMouseover);
+      }
+
       d3.json('topo_boulder_wildfires.json', function(err, data){
+        infoGraph(topojson.object(data, data.objects.boulder_wildfires));
+
         svg.append("path")
           .datum(topojson.object(data, data.objects.boulder_streets))
           .attr('d', path)
@@ -83,10 +118,9 @@
           .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
           .enter().append('text')
           .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"})
-          .text(function(d) { return d.properties.NAME })
+          .text(function(d) { return d.properties.NAME; })
           .attr('class', function(d, i) { return 'fire' + i })
           .attr('display', 'none')
-
       });
       
     </script>  
