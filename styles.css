@@ -1,0 +1,35 @@
+.container {
+  /*background-color: #11ffff;*/
+  float: left;
+}
+
+.info {
+  float: right;
+  float: left;
+  font-family: Arial, sans-serif;
+}
+
+.fires {
+  stroke: #660000;
+  stroke-width: 1px;
+  fill: #FC9272;
+  opacity: 0.80;
+}
+
+.fire-info {
+  cursor: pointer;
+}
+
+.states { 
+  stroke: #0A0101;
+  fill: #fff;
+  stroke-width: 0.3px;
+}
+
+#content {
+  margin: auto;
+}
+
+text {
+  font: 12px sans-serif;
+}
