@@ -17,7 +17,10 @@
     <script>
       var width = 700;
       var height = 700;
-      
+
+      var capitalize = function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1, str.length).toLowerCase();
+      }
         //.scale(4700)
       var projection = d3.geo.mercator()
         .scale(80000)
@@ -57,7 +60,7 @@
         .enter()
         .append('div')
         .attr('class', 'fire-info')
-        .text(function(d) { return d.properties.NAME + " " + getYear(d); })
+        .text(function(d) { return capitalize(d.properties.NAME) + " " + getYear(d); })
         .on('mouseover', showTextOnMouseover)
         .on('mouseout', hideTextOnMouseover);
       }
@@ -82,7 +85,7 @@
           .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
           .enter().append('text')
           .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"})
-          .text(function(d) { return d.properties.NAME; })
+          .text(function(d) { return capitalize(d.properties.NAME); })
           .attr('class', function(d, i) { return 'fire' + i })
           .attr('display', 'none')
       });
