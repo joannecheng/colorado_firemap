@@ -1,0 +1,3 @@
+* Download data files from SOURCES.mkd
+* `ogr2ogr -f GeoJSON -a_srs EPSG:4326 [filename] [shapefile]`
+* `topojson -q 1e8 -o topo_states_wildfires.json data/`
