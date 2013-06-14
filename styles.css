@@ -1,35 +1,26 @@
-.container {
-  /*background-color: #11ffff;*/
-  float: left;
+body,html {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+#map {
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
 }
 
-.info {
-  float: right;
-  float: left;
-  font-family: Arial, sans-serif;
-}
-
-.fires {
-  stroke: #660000;
-  stroke-width: 1px;
-  fill: #FC9272;
-  opacity: 0.80;
-}
-
-.fire-info {
-  cursor: pointer;
-}
-
-.states { 
-  stroke: #0A0101;
-  fill: #fff;
-  stroke-width: 0.3px;
-}
-
-#content {
-  margin: auto;
-}
-
-text {
-  font: 12px sans-serif;
+#chart_container {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
+  z-index: 1000;
+  position: absolute;
+  display: block;
+  height: 100px;
+  width: 80%;
+  margin-right: 10%;
+  margin-left: 10%;
+  background-color: #fefeff;
+  top: 80%;
 }

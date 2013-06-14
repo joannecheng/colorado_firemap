@@ -4,19 +4,28 @@
     Colorado Wildfires
   </title>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="vendor/leaflet.css" />
 </head>
 <meta charset="utf-8">
   <body>    
-    <div id="content">
+    <div id="map">
     </div>
-    <!--script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v0.min.js"></script>  -->
+
+    <div id="chart_container">
+      graph data goes here
+      <div id="bar_graph">
+      </div>
+    </div>
 
     <script src="vendor/d3.js"></script>
-    <script src="vendor/topojson.js"></script>    
+    <script src="vendor/leaflet.js"></script>    
     <script>
-      var width = 700;
-      var height = 700;
+      var fireStyle = {
+        color: '#DB4C14',
+        weight: '1',
+        opacity: '0.8'
+      }
 
       var capitalize = function(str) {
         return str.charAt(0).toUpperCase() + str.slice(1, str.length).toLowerCase();
@@ -27,77 +36,15 @@
         return date.substr(0,4);
       }
 
-      var projection = d3.geo.mercator()
-      .scale(80000)
-      .center([-105.27, 40.05])
-      .translate([width/2, height/2]);
+      var map = L.map('map').setView([40.0350, -105.27], 11);
+      L.tileLayer('http://{s}.tile.cloudmade.com/53725ac327344cb99d13b7a0992c928b/22677/256/{z}/{x}/{y}.png')
+        .addTo(map);
 
-      var path = d3.geo.path()
-      .projection(projection);
-
-      var svg = d3.select("#content")
-      .append("svg")
-      .attr('class', 'container')
-      .attr("width", width)
-      .attr("height", height)
-
-      var showTextOnMouseover = function(event, ui) {
-        svg.selectAll('text.fire' + ui)
-        .attr('display', 'block');
-      }
-
-      var hideTextOnMouseover = function(event, ui) {
-        svg.selectAll('text.fire' + ui)
-        .attr('display', 'none');
-      }
-
-      var infoGraph = function(data) {
-        d3.select('#content')
-        .append('div')
-        .attr('class', 'info')
-        .selectAll('.fire-info')
-        .data(data.geometries)
-        .enter()
-        .append('div')
-        .attr('class', 'fire-info')
-        .text(function(d) { return capitalize(d.properties.NAME) + " " + getYear(d); })
-        .on('mouseover', showTextOnMouseover)
-        .on('mouseout', hideTextOnMouseover);
-      }
-      var g = svg.append("g");
-
-      d3.json('topo_boulder_wildfires.json', function(err, data){
-        infoGraph(topojson.object(data, data.objects.boulder_wildfires));
-
-        g.append("path")
-        .datum(topojson.object(data, data.objects.boulder_streets))
-        .attr('d', path)
-        .attr('class', 'states')
-
-        g.selectAll('path.fires')
-        .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
-        .enter().append('path')
-        .attr('d', path)
-        .attr('class', function(d, i) { return 'fires fire' + i })
-        .on('mouseover', showTextOnMouseover)
-        .on('mouseout', hideTextOnMouseover);
-
-        g.selectAll('text')
-        .data(topojson.object(data, data.objects.boulder_wildfires).geometries)
-        .enter().append('text')
-        .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"})
-        .text(function(d) { return capitalize(d.properties.NAME); })
-        .attr('class', function(d, i) { return 'fire' + i })
-        .attr('display', 'none')
+      d3.json('boulder_wildfires.geojson', function(error, json) {
+        L.geoJson(json, {
+          style: fireStyle
+        }).addTo(map);
       });
-
-      var zoom = d3.behavior.zoom()
-      .on("zoom", function() {
-        g.attr("transform", "translate(" + d3.event.translate.join(",") + ")scale(" + d3.event.scale+")")
-        d3.selectAll("path")
-        .attr("d", path.projection(projection));
-      })
-      svg.call(zoom);
 
     </script>  
   </body>
