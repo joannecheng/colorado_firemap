@@ -17,10 +17,22 @@ body,html {
   z-index: 1000;
   position: absolute;
   display: block;
-  height: 100px;
+  height: 160px;
   width: 80%;
   margin-right: 10%;
   margin-left: 10%;
   background-color: #fefeff;
-  top: 80%;
+  top: 75%;
+  padding: 12px;
+}
+
+h2 {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#bar_graph { 
+  padding-left: 10px;
+  padding-top: 10px;
 }

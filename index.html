@@ -13,14 +13,15 @@
     </div>
 
     <div id="chart_container">
-      graph data goes here
+      <h2>Area Burned</h2>
       <div id="bar_graph">
       </div>
     </div>
 
     <script src="vendor/d3.js"></script>
     <script src="vendor/zepto.js"></script>
-    <script src="vendor/leaflet.js"></script>    
+    <script src="vendor/leaflet.js"></script>
+    <script src="vendor/lodash.js"></script>
     <script>
       var fireStyle = {
         color: '#DB4C14',
@@ -54,11 +55,40 @@
             years[year] = 0
           }
 
-          years[year] += feature.properties.Shape_area
+          years[year] += feature.properties.Shape_area;
         }
-        $('#bar_graph').html(JSON.stringify(years));
+
+        var w = 500;
+        var h = 100;
+        var barPadding = 2;
+        var areaBurned = _.map(_.pairs(years), function(d) { return d[1] })
+        var y = d3.scale.linear().domain([0, d3.max(areaBurned)]).range([0, 110]);
+
+        // Create SVG element
+        var svg = d3.select("#bar_graph")
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h + 20);
+
+        svg.selectAll("rect")
+          .data(_.pairs(years))
+          .enter()
+          .append("rect")
+          .attr("x", function(d, i) { return i*(w/_.pairs(years).length); })
+          .attr("y", function(d) { return h - y(d[1]) } )
+          .attr("width", 20 - barPadding)
+          .attr("height", function(d) { return y(d[1]) });
+
+        svg.selectAll("text")
+          .data(_.pairs(years))
+          .enter()
+          .append("text")
+          .text(function(d) { return d[0] } )
+          .attr('stroke', 'black')
+          .attr('x', function(d, i ) { return i*(w/areaBurned.length);})
+          .attr('y', h + 20)
       });
 
-    </script>  
+    </script>
   </body>
 </html>
