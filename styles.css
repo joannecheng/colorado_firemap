@@ -23,8 +23,8 @@ body,html {
   margin-right: 10%;
   margin-left: 10%;
   background-color: #fefeff;
-  top: 75%;
   padding: 12px;
+  bottom: 35px;
 }
 
 h2 {
