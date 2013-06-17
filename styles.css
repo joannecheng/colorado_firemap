@@ -37,3 +37,7 @@ h2 {
   padding-left: 10px;
   padding-top: 10px;
 }
+
+#bar_graph rect {
+  cursor: pointer;
+}
