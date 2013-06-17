@@ -23,12 +23,6 @@
     <script src="vendor/leaflet.js"></script>
     <script src="vendor/lodash.js"></script>
     <script>
-      var fireStyle = {
-        color: '#DB4C14',
-        weight: '1',
-        opacity: '0.8'
-      }
-
       var capitalize = function(str) {
         return str.charAt(0).toUpperCase() + str.slice(1, str.length).toLowerCase();
       }
@@ -43,10 +37,36 @@
         .addTo(map);
 
       d3.json('boulder_wildfires.geojson', function(error, json) {
+        var layers = []
+        var onEachFeature = function(feature, layer) {
+          layers.push([feature, layer]);
+        }
+        var fireStyle = {
+          color: '#DB4C14',
+          weight: '1',
+          opacity: 0.5
+        }
         var fireLayer = L.geoJson(json, {
-          style: fireStyle
-        })
+          style: fireStyle,
+          onEachFeature: onEachFeature
+        });
         fireLayer.addTo(map);
+
+        function addClassToLayer(layer, feature) {
+          if (layer._container) {
+            $(layer._container).find('path').addClass('fire-year-' + getYear(feature));
+          }
+        }
+
+        _.each(layers, function(data) {
+          var layer = data[1];
+          if (layer._layers) {
+            _.each(layer._layers, function(layer) { addClassToLayer(layer, data[0]) } )
+          } 
+          else {
+            addClassToLayer(layer, data[0]);
+          }
+        });
 
         var years = {}
         for (var i in json.features){
@@ -69,7 +89,7 @@
         var svg = d3.select("#bar_graph")
           .append("svg")
           .attr("width", w)
-          .attr("height", h + 20);
+          .attr("height", h + 25);
 
         svg.selectAll("rect")
           .data(_.pairs(years))
@@ -80,7 +100,9 @@
           .attr("width", 20 - barPadding)
           .attr("height", function(d) { return y(d[1]) })
           .on('click', function(event) {
-            fireLayer.setStyle({});
+            fireLayer.eachLayer(function(l) { fireLayer.resetStyle(l)});
+            d3.selectAll('.fire-year-' + event[0])
+              .attr('stroke-width', 8)
           });
 
         svg.selectAll("text")
@@ -95,5 +117,4 @@
 
     </script>
   </body>
-        console.log(layer.onAdd);
 </html>
