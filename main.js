@@ -7,6 +7,14 @@ var getYear = function(d){
   return date.substr(0,4);
 }
 
+var buildPopup = function(d) {
+  var popupString = "";
+  popupString += "<p>Name: " + d.properties.LABELNAME + "</p>";
+  popupString += "<p>Dates: " + d.properties.STARTDATE + " - " + d.properties.ENDDATE + "</p>";
+  popupString += "<p>Area: " + d3.format(",")(d3.round(d.properties.Shape_area)) + "</p>";
+  return popupString;
+}
+
 var createGraph = function(json, fireLayer) {
   var years = {}
   for (var i in json.features){
@@ -80,6 +88,7 @@ var createFireMap = function (json) {
 
   _.each(layers, function(data) {
     var layer = data[1];
+    layer.bindPopup(buildPopup(data[0]));
     if (layer._layers) {
       _.each(layer._layers, function(layer) { addClassToLayer(layer, data[0]) } )
     } 
