@@ -18,8 +18,8 @@ body,html {
   z-index: 1000;
   position: absolute;
   display: block;
-  height: 160px;
-  width: 735px;
+  height: 180px;
+  width: 700px;
   margin-right: 8%;
   margin-left: 5%;
   background-color: #fefeff;
@@ -28,8 +28,18 @@ body,html {
 }
 
 #fire_list {
+  margin-top: -1.8em;
   width: 150px;
+  height: 130px;
   float: left;
+}
+
+#source {
+  width: 100%;
+  margin-top: -2em;
+  font-size: 0.6em;
+  float: left;
+  text-align: right;
 }
 
 h2 {

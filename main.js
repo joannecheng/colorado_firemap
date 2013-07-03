@@ -27,7 +27,7 @@ var createGraph = function(json, fireLayer) {
     years[year] += feature.properties.Shape_area;
   }
   var w = 500;
-  var h = 100;
+  var h = 120;
   var barPadding = 2;
   var areaBurned = _.map(_.pairs(years), function(d) { return d[1] })
   var y = d3.scale.linear().domain([0, d3.max(areaBurned)]).range([0, 110]);
