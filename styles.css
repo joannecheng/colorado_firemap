@@ -60,3 +60,7 @@ h2 {
 #bar_graph rect {
   cursor: pointer;
 }
+
+.invisible-bars {
+  fill: white;
+}

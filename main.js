@@ -16,6 +16,12 @@ var buildPopup = function(d) {
 }
 
 var createGraph = function(json, fireLayer) {
+  function highlightFire(event) {
+    fireLayer.eachLayer(function(l) { fireLayer.resetStyle(l)});
+    d3.selectAll('.fire-year-' + event[0])
+      .attr('stroke-width', 8);
+    populateFireList(event);
+  }
   var years = {}
   for (var i in json.features){
     var feature = json.features[i];
@@ -37,29 +43,36 @@ var createGraph = function(json, fireLayer) {
   .attr("width", w)
   .attr("height", h + 25);
 
-  svg.selectAll("rect")
-  .data(_.pairs(years))
-  .enter()
-  .append("rect")
-  .attr("x", function(d, i) { return 5 + i*(w/_.pairs(years).length); })
-  .attr("y", function(d) { return h - y(d[1]) } )
-  .attr("width", 20 - barPadding)
-  .attr("height", function(d) { return y(d[1]) })
-  .on('click', function(event) {
-    fireLayer.eachLayer(function(l) { fireLayer.resetStyle(l)});
-    d3.selectAll('.fire-year-' + event[0])
-    .attr('stroke-width', 8);
-    populateFireList(event);
-  });
+  svg.selectAll(".invisible-bars")
+    .data(_.pairs(years))
+    .enter()
+    .append("rect")
+    .attr("x", function(d, i) { return 5 + i*(w/_.pairs(years).length); })
+    .attr("y", function(d) { return y(d[1]) } )
+    .attr("width", 20 - barPadding)
+    .attr("height", function(d) { return h-y(d[1]) })
+    .attr('class', 'invisible-bars')
+    .on('click', highlightFire);
+
+  svg.selectAll(".bars")
+    .data(_.pairs(years))
+    .enter()
+    .append("rect")
+    .attr("x", function(d, i) { return 5 + i*(w/_.pairs(years).length); })
+    .attr("y", function(d) { return h - y(d[1]) } )
+    .attr("width", 20 - barPadding)
+    .attr("height", function(d) { return y(d[1]) })
+    .attr('class', 'bars')
+    .on('click', highlightFire);
 
   svg.selectAll("text")
-  .data(_.pairs(years))
-  .enter()
-  .append("text")
-  .text(function(d) { return d[0] } )
-  .attr('stroke', 'black')
-  .attr('x', function(d, i ) { return i*(w/areaBurned.length);})
-  .attr('y', h + 20)
+    .data(_.pairs(years))
+    .enter()
+    .append("text")
+    .text(function(d) { return d[0] } )
+    .attr('stroke', 'black')
+    .attr('x', function(d, i ) { return i*(w/areaBurned.length);})
+    .attr('y', h + 20);
 }
 
 var populateFireList = function(event) {
