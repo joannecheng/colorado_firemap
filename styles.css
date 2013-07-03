@@ -19,12 +19,17 @@ body,html {
   position: absolute;
   display: block;
   height: 160px;
-  width: 530px;
-  margin-right: 10%;
-  margin-left: 10%;
+  width: 735px;
+  margin-right: 8%;
+  margin-left: 5%;
   background-color: #fefeff;
   padding: 12px;
   bottom: 35px;
+}
+
+#fire_list {
+  width: 100px;
+  float: left;
 }
 
 h2 {
@@ -34,6 +39,9 @@ h2 {
 }
 
 #bar_graph { 
+  float: right;
+  float: left;
+  width: 500px;
   padding-left: 10px;
   padding-top: 10px;
 }

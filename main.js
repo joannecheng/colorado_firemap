@@ -48,7 +48,8 @@ var createGraph = function(json, fireLayer) {
   .on('click', function(event) {
     fireLayer.eachLayer(function(l) { fireLayer.resetStyle(l)});
     d3.selectAll('.fire-year-' + event[0])
-    .attr('stroke-width', 8)
+    .attr('stroke-width', 8);
+    populateFireList(event);
   });
 
   svg.selectAll("text")
@@ -59,6 +60,18 @@ var createGraph = function(json, fireLayer) {
   .attr('stroke', 'black')
   .attr('x', function(d, i ) { return i*(w/areaBurned.length);})
   .attr('y', h + 20)
+}
+
+var populateFireList = function(event) {
+  var firesDuringYear = _.map($('.fire-year-'+event[0]), function(fire) {
+    return $(fire).data('label');
+  });
+  d3.select('#fire_list')
+    .selectAll('div')
+    .data(firesDuringYear)
+    .enter()
+    .append('div')
+    .text(function(d) { return d; })
 }
 
 var createFireMap = function (json) {
@@ -83,6 +96,7 @@ var createFireMap = function (json) {
   function addClassToLayer(layer, feature) {
     if (layer._container) {
       $(layer._container).find('path').addClass('fire-year-' + getYear(feature));
+      $(layer._container).find('path').data('label', feature.properties.LABELNAME);
     }
   }
 
