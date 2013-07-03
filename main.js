@@ -66,6 +66,7 @@ var populateFireList = function(event) {
   var firesDuringYear = _.map($('.fire-year-'+event[0]), function(fire) {
     return $(fire).data('label');
   });
+  $('#fire_list').html('')
   d3.select('#fire_list')
     .selectAll('div')
     .data(firesDuringYear)
