@@ -69,7 +69,7 @@ var populateFireList = function(event) {
   $('#fire_list').html('')
   d3.select('#fire_list')
     .selectAll('div')
-    .data(firesDuringYear)
+    .data(_.uniq(firesDuringYear))
     .enter()
     .append('div')
     .text(function(d) { return d; })
@@ -96,8 +96,8 @@ var createFireMap = function (json) {
 
   function addClassToLayer(layer, feature) {
     if (layer._container) {
-      $(layer._container).find('path').addClass('fire-year-' + getYear(feature));
-      $(layer._container).find('path').data('label', feature.properties.LABELNAME);
+      $(layer._container).find('path').addClass('fire-year-' + getYear(feature))
+        .data('label', feature.properties.LABELNAME);
     }
   }
 
