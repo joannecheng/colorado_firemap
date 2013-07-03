@@ -11,7 +11,7 @@ var buildPopup = function(d) {
   var popupString = "";
   popupString += "<p>Name: " + d.properties.LABELNAME + "</p>";
   popupString += "<p>Dates: " + d.properties.STARTDATE + " - " + d.properties.ENDDATE + "</p>";
-  popupString += "<p>Area: " + d3.format(",")(d3.round(d.properties.Shape_area)) + "</p>";
+  popupString += "<p>Area: " + d3.format(",")(d3.round(d.properties.Shape_area/43560)) + " acres</p>";
   return popupString;
 }
 
