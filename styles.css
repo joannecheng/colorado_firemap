@@ -13,7 +13,6 @@ body,html {
 }
 
 #chart_container {
-  opacity: 0.75;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 200;
   z-index: 1000;
