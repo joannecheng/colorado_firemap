@@ -49,6 +49,8 @@ h2 {
 }
 
 #bar_graph { 
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
   float: right;
   float: left;
   width: 500px;
