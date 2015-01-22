@@ -90,7 +90,7 @@ var populateFireList = function(event) {
 
 var createFireMap = function (json) {
   var map = L.map('map').setView([40.008, -105.48], 11);
-  L.tileLayer('http://{s}.tile.cloudmade.com/53725ac327344cb99d13b7a0992c928b/22677/256/{z}/{x}/{y}.png')
+  L.tileLayer('http://{s}.tile.cloudmade.com/1fb56e08f6b7427dbe17e89f4d215452/22677/256/{z}/{x}/{y}.png')
     .addTo(map);
   var layers = []
   var onEachFeature = function(feature, layer) {
