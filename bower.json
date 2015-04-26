@@ -1,0 +1,21 @@
+{
+  "name": "colorado_firemap",
+  "version": "0.0.0",
+  "homepage": "https://github.com/joannecheng/colorado_firemap",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.5",
+    "leaflet": "~0.7.3",
+    "zepto": "~1.1.6",
+    "lodash": "~3.7.0",
+    "topojson": "~1.6.19"
+  }
+}
