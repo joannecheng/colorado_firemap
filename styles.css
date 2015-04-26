@@ -12,13 +12,14 @@ body,html {
   left: 0%;
 }
 
-#chart_container {
+#info_box{
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   z-index: 1000;
   position: absolute;
   display: block;
-  height: 180px;
+  height: 40%;
+  min-height: 300px;
   width: 700px;
   margin-right: 8%;
   margin-left: 5%;
