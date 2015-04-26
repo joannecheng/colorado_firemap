@@ -24,44 +24,49 @@ var createGraph = function(json, fireLayer) {
 
     years[year] += feature.properties.Shape_area;
   }
+
+  var margin = { left: 10 };
   var svg = d3.select("#bar_graph svg")
   var w = parseInt(svg.style("width"));
   var maxBarHeight = parseInt(svg.style("height"))*3/4;
   var barPadding = 2;
+  var barWidth = 10;
   var areaBurned = _.map(_.pairs(years), function(d) { return d[1] })
   var y = d3.scale.linear().domain([0, d3.max(areaBurned)]).range([0, maxBarHeight]);
 
-  svg.selectAll(".invisible-bars")
+  var barGraph = svg.append("g").classed("graph", true)
+    .attr("transform", "translate("+margin.left+")");
+
+  barGraph.selectAll(".invisible-bars")
     .data(_.pairs(years))
     .enter()
     .append("rect")
-    .attr("x", function(d, i) { return 5 + i*(w/_.pairs(years).length); })
+    .attr("x", function(d, i) { return i*(w/_.pairs(years).length); })
     .attr("y", function(d) { return y(d[1]) } )
-    .attr("width", 20 - barPadding)
+    .attr("width", barWidth - barPadding)
     .attr("height", function(d) { return maxBarHeight-y(d[1]) })
     .attr("class", "invisible-bars")
     .on("click", highlightFire);
 
-  svg.selectAll(".bars")
+  barGraph.selectAll(".bars")
     .data(_.pairs(years))
     .enter()
     .append("rect")
-    .attr("x", function(d, i) { return 5 + i*(w/_.pairs(years).length); })
+    .attr("x", function(d, i) { return i*(w/_.pairs(years).length); })
     .attr("y", function(d) { return maxBarHeight - y(d[1]) } )
-    .attr("width", 20 - barPadding)
+    .attr("width", barWidth - barPadding)
     .attr("height", function(d) { return y(d[1]) })
     .attr("class", "bars")
     .on("click", highlightFire);
 
-  svg.selectAll("text")
+  barGraph.selectAll("text")
     .data(_.pairs(years))
     .enter()
     .append("text")
     .text(function(d) { return d[0] } )
-    .attr("stroke", "black")
     .attr("x", function(d, i ) { return i*(w/areaBurned.length);})
     .attr("y", maxBarHeight)
-    .attr("transform", "translate(0,"+20+")");
+    .attr("transform", "translate(-10,"+20+")");
 }
 
 var populateFireList = function(event) {
