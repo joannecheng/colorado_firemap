@@ -7,17 +7,17 @@ var buildPopup = function(d) {
 }
 
 var createFireMap = function (json) {
-  var map = L.map('map').setView([40.008, -105.48], 11);
-  L.tileLayer('http://{s}.tile.cloudmade.com/1fb56e08f6b7427dbe17e89f4d215452/22677/256/{z}/{x}/{y}.png')
+  var map = L.map("map").setView([40.008, -105.48], 11);
+  L.tileLayer("http://{s}.tile.cloudmade.com/1fb56e08f6b7427dbe17e89f4d215452/22677/256/{z}/{x}/{y}.png")
     .addTo(map);
   var layers = []
   var onEachFeature = function(feature, layer) {
     layers.push([feature, layer]);
   }
   var fireStyle = {
-    color: '#DB4C14',
-    weight: '1',
-    opacity: 0.5
+    color: "#DB4C14",
+    weight: "0.4",
+    "fill-opacity": 0.5
   }
   var fireLayer = L.geoJson(json, {
     style: fireStyle,
@@ -27,8 +27,8 @@ var createFireMap = function (json) {
 
   function addClassToLayer(layer, feature) {
     if (layer._container) {
-      $(layer._container).find('path').addClass('fire-year-' + getYear(feature))
-        .data('label', feature.properties.LABELNAME);
+      $(layer._container).find("path").addClass("fire-year-" + getYear(feature))
+        .data("label", feature.properties.LABELNAME);
     }
   }
 

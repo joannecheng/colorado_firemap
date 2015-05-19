@@ -11,7 +11,8 @@ var createGraph = function(json, fireLayer) {
   var highlightFire = function(event) {
     fireLayer.eachLayer(function(l) { fireLayer.resetStyle(l)});
     d3.selectAll(".fire-year-" + event[0])
-      .attr("stroke-width", 8);
+      //.attr("stroke-width", 2)
+      .attr("fill-opacity", 0.8);
     populateFireList(event);
   }
   var years = {}

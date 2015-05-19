@@ -13,7 +13,7 @@ body,html {
 }
 
 #info_box{
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "proxima-nova", sans-serif;
   font-weight: 400;
   z-index: 1000;
   position: absolute;
@@ -24,6 +24,8 @@ body,html {
   padding-bottom: 20px;
   padding-left: 15px;
   bottom: 0px;
+  border: 1px solid #aaaaaa;
+  margin: 0 0 15px 15px;
 }
 
 #fire_list {
@@ -53,7 +55,7 @@ h2 {
 }
 
 #bar_graph { 
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "proxima-nova", sans-serif;
   font-weight: 200;
   float: right;
   float: left;
